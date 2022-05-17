@@ -12,7 +12,7 @@ void initInv(void){
 	}
 }
 
-void addInv(int id, char name[], double price, int quantity, int type){
+void addInv(char name[], double price, int quantity, int type){
 	struct inventory *new_inv = malloc(sizeof(struct inventory));
 	new_inv->id = id;
 	new_inv->name = name;
