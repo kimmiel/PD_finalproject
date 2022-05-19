@@ -143,7 +143,7 @@ void sortInv(int order, int order_by){
 
 }
 
-/***********************/
+/***********柏恩part************/
 void deleteInv(int id){
 }
 
@@ -153,7 +153,7 @@ void searchByID(int id){
 void searchByName(char name[]){
 }
 
-/**********************/
+/************end************/
 
 int cmpDesById(const void *a, const void *b){
 
