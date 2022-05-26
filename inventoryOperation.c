@@ -1,5 +1,6 @@
 #include "basic.h"
 #include "inventoryOperation.h"
+#include "sort.h"
 
 struct category cat_list[MAX_CATEGORY];//the list of category
 int type1_len;//type1 inventory list length
@@ -76,69 +77,46 @@ void traversaInv(){
 
 void sortInv(int order, int order_by){
 	int i = 0;
-	
-	//invnetory array
-	struct inventory type1[type1_len];
-	struct inventory type2[type2_len];
-	struct inventory type3[type3_len];
-
-	struct inventory type1_cur = cat_list[EDU].inv_head;
-	struct inventory type2_cur = cat_list[FIN].inv_head;
-	struct inventory type3_cur = cat_list[NOVEL].inv_head;
-	
-	//put inventory to array to use qsort
-	for(i = 0; i < type1_len; i++){
-		type1[i] = type1_cur;
-		type1_cur = type1_cur -> next;
-	}
-	for(i = 0; i < type2_len; i++){
-		type2[i] = type2_cur;
-		type2_cur = type2_cur -> next;
-	}
-	for(i = 0 i < type3_len; i++){
-		type3[i] = type3_cur;
-		type3_cur = type3_cur -> next;
-	}
-
 	if(order == 0){
 		//descending
 		if(order_by == 0){
 			//sort by id
-			qsort(type1, type1_len, sizeof(struct inventory), cmpDesById);
-			qsort(type2, type2_len, sizeof(struct inventory), cmpDesById);
-			qsort(type3, type3_len, sizeof(struct inventory), cmpDesById);
+			for(i = 0; i < MAX_CATEGORY; i++){
+				sort(cat_list[i].inv_head,cmpDesById);
+			}
 		}
 		else if(order_by == 1){
 			//sort by price
-			qsort(type1, type1_len, sizeof(struct inventory), cmpDesByPrice);
-			qsort(type2, type2_len, sizeof(struct inventory), cmpDesByPrice);
-			qsort(type3, type3_len, sizeof(struct inventory), cmpDesByPrice);
+			for(i = 0; i < MAX_CATEGORY; i++){
+				sort(cat_list[i].inv_head,cmpDesByPrice);
+			}
+		}
+		else{
+			fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
 		}
 	}
 	else if(order == 1){
 		//ascending
 		if(order_by == 0){
 			//sort by id
-			qsort(type1, type1_len, sizeof(struct inventory), cmpAscById);
-			qsort(type2, type2_len, sizeof(struct inventory), cmpAscById);
-			qsort(type3, type3_len, sizeof(struct inventory), cmpAscById);
+			for(i = 0; i < MAX_CATEGORY; i++){
+				sort(cat_list[i].inv_head,cmpAscById);
+			}
 		}
 		else if(order == 1){
 			//sort by price
-			qsort(type1, type1_len, sizeof(struct inventory), cmpAscByPrice);
-			qsort(type2, type2_len, sizeof(struct inventory), cmpAscByPrice);
-			qsort(type3, type3_len, sizeof(struct inventory), cmpAscByPrice);
+			for(i = 0; i < MAX_CATEGORY; i++){
+				sort(cat_list[i].inv_head,cmpAscByPrice);
+			}
+		}
+		else{
+			fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
 		}
 		
-		printf("type 1:\n");
-		printList(type1);
-		printf("type2:\n");
-		printList(type2);
-		printf("type3:\n");
-		printList(type3);
+		
 	}
 	else{
-		fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
+		fprintf(stderr, "Wrong order parameter, please input 0 or 1\n");
 	}
 
 }
