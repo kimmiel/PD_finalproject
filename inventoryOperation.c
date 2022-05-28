@@ -122,13 +122,74 @@ void sortInv(int order, int order_by){
 }
 
 /***********柏恩part************/
-void deleteInv(int id){
+void deleteInv(int id){//delete produce
+struct inventory *cur, *prev;
+for(int i = 0; i < MAX_CATEGORY; i++){
+	for (cur = cat_list[i].inv_head , prev = NULL;//?type
+		 cur != NULL && cur->id==id;
+		 prev = cur, cur = cur->next)
+		;
+	if (cur == NULL)
+	{
+		
+		return;
+	}
+	if (prev == NULL)
+	{
+		cat_list[i].inv_head = cat_list[i].inv_head->next;
+	}
+	else
+	{
+		
+		prev->next = cur->next; 
+	}
+}
 }
 
-void searchByID(int id){
+void searchByID(int id){//search id and print the specific item
+	struct inventory *p;
+	int count = 0;
+	p = malloc(sizeof(struct inventory));
+	for(int i = 0; i < MAX_CATEGORY; i++){
+		for (p = cat_list[i].inv_head; p != NULL; p = p->next)
+	{ //找id位置
+
+		if (p->id==id)
+		{
+			//print item
+			printf("%d\t%s\t%f\t%d\n", p->id, p->name, p->price, p->quantity);
+			count++;
+
+		}
+	} }//
+	if (count == 0)
+	{
+		printf("Don't has this inventory\n");
+	}
+
 }
 
-void searchByName(char name[]){
+void searchByName(char name[]){//search name and print the specific item
+	struct inventory *p;
+	int count = 0;
+	p = malloc(sizeof(struct inventory));
+	for(int i = 0; i < MAX_CATEGORY; i++){
+		for (p = cat_list[i].inv_head; p != NULL; p = p->next)
+	{ //找name位置
+
+		if (strcmp(p->name,name)==0)
+		{
+			//print item
+			printf("%d\t%s\t%f\t%d\n", p->id, p->name, p->price, p->quantity);
+			count++;
+
+		}
+	} }//
+	if (count == 0)
+	{
+		printf("Don't has this inventory\n");
+	}
+
 }
 
 /************end************/
