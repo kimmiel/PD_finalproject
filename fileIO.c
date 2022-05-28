@@ -1,8 +1,140 @@
 #include "fileIO.h"
 
-void inventory(){
+/*
+ *i will write it later!! 
+ * **/
+int check_type(char c_type)
+{
+    if(!strcmp(c_type, "EDU"))      return EDU;
+
+    else if(!strcmp(c_type, "FIN")) return FIN;
+    
+    else if(!strcmp(c_type,"NOVEL"))return NOVEL;
+
+    //ERROR : type is not in the category list.
+    else  return -1;
+}
+
+void readInv(void)
+{
+    int input;
+    printf("Which type of data you want to input?\n");
+    printf("[0] File or [1] Manual entry: ");
+    scanf("%d", &input);
+
+    //input a file
+    if(input == 0)
+    {
+		const char path[100];
+        printf("File path: ");
+        scanf("%s", path);
+
+		//testing path: "C:\Users\phoebe\Documents\testing.csv"
+        FILE* fp = fopen(path, "r");
+		
+		if (!fp)
+		{
+			printf("Can't open file\n");
+		}
+    	else 
+		{
+			char *name, *c_type;
+			int price, quantity, type;
+        
+        	// Here we have taken size of
+        	// array 1024 you can modify it
+        	char buffer[1024];
+        	int row = 0;
+
+        	/*problem : how to deal with syntax errors in the file?*/
+        	while (fgets(buffer, 1024, fp)) 
+			{
+           		row++;
+ 
+            	// To avoid getting the column
+            	// names in file can be changed
+            	// according to need
+            	if (row == 1) continue;
+
+            	// Splitting the data
+            	char* value = strtok(buffer, ", ");
+
+            	// Column 1 : Name
+            	name = value;
+            	value = strtok(NULL, ", ");
+
+            	// Column 2 : Price
+            	price = atoi(value);    /*problem : if atoi() return error value.*/
+            	value = strtok(NULL, ", ");
+
+            	// Column 3 : Quantity
+            	quantity = atoi(value); /*problem : if atoi() return error value.*/
+            	value = strtok(NULL, ", ");
+
+            	// Column 4 : Type
+            	c_type = value;
+                type = check_type(c_type);
+
+                if(value == NULL)
+                {
+                    //there are at least one value lost.
+                    printf("ERROR : Line %d has missing value.\n", row);
+                    return;
+                }
+                if(type == -1)
+                {
+                    //the type value is not in the list of category.        
+                    printf("ERROR : The type attribute on line %d is incorrect\n", row);
+                    return;
+                }
+                addInv(name,price,quantity,type);
+			}
+        // Close the file
+        fclose(fp);
+		}
+    }
+    //input one data
+    else if(input == 1)
+    {
+		char name[20],c_type[20];
+    	int price, quantity, type;
+        
+        printf("Name: ");
+        scanf("%s", name);
+
+        printf("Price: ");
+        scanf("%d", &price);
+
+        printf("Quantity: ");
+        scanf("%d", &quantity);
+
+        printf("Type: ");
+        scanf("%s", c_type);
+        type = check_type(c_type);
+
+        if(type == -1)
+        {
+            //the type value is not in the list of category.        
+            printf("ERROR : The type attribute is incorrect\n");
+            return;
+        }
+        addInv(name,price,quantity,type);
+    }
+}
+
+void printInv(void);
+
+void mainMenu(void);
+
+void readOrder(void);
+
+void printOrder(void);
+
+void inventory()
+{
     int action;
-    while(true){
+    while(true)
+    {
         printf("Please enter an number to do with the inventory?\n");
         printf("[0] add [1] delete [2] show [3] search  [4] replenish [5] exit: ");
         scanf("%d", &action);
@@ -12,6 +144,7 @@ void inventory(){
             static int InputType;
             printf("Which type of data to input? [0] file(.csv) [1] user input: \n");
             scanf("%d", &InputType);
+            readInv();
             //not finish
         }
         else if(action == 1)
@@ -65,7 +198,8 @@ void inventory(){
                 printf("Please enter the correct number.\n");
             }
         }
-        else if(action == 4){
+        else if(action == 4)
+        {
             int replenish_id;
             int replenish_num;
             printf("Enter the id you want to replenish?: ");
@@ -75,17 +209,22 @@ void inventory(){
             scanf("%d",&replenish_num);
             replenish(replenish_id,replenish_num);
         }
-        else if(action == 5){
+        else if(action == 5)
+        {
             return;
         }
-        else{
+        else
+        {
             printf("Please enter the correct value.\n");
         }
     }
 }
-void order(){
+
+void order()
+{
     int action;
-    while(true){
+    while(true)
+    {
         printf("Please enter an number to do with the order?\n");
         printf("[0] add [1] delete [2] show [3] search [4] exit:");
         scanf("%d", &action);
@@ -95,6 +234,7 @@ void order(){
             static int InputType;
             printf("Which type of data to input? [0] file(.csv) [1] user input: \n");
             scanf("%d", &InputType);
+            void readOrder();
             //not finish
         }
         else if(action == 1)
@@ -128,19 +268,22 @@ void order(){
             searchOrder(search_id);
             
         }
-        else if(action == 4){
+        else if(action == 4)
+        {
             return;
         }
-        else{
+        else
+        {
             printf("Please enter the correct value.\n");
         }
     }
 }
 
-void main_menu(){
+void main_menu()
+{
     int act_data;
-    while(true){
-
+    while(true)
+    {
         printf("Which data do you want to act on ?\n");
         printf("[0] inventory [1] order [2] Quit: ");
         scanf("%d", &act_data);
@@ -158,11 +301,6 @@ void main_menu(){
             printf("Please enter the correct value.\n");
         }
     }
-
 }
 
-void readInv(void);
-void printInv(void);
-void mainMenu(void);
-void readOrder(void);
-void printOrder(void);
+
