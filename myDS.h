@@ -1,7 +1,6 @@
-#include "basic.h"
-
 #ifndef myDS_H
 #define myDS_H
+#include <time.h>
 
 enum bookType {EDU , FIN, NOVEL};
 
