@@ -1,5 +1,6 @@
 #ifndef myDS_H
 #define myDS_H
+typedef int BOOL;
 #include <time.h>
 
 enum bookType {EDU , FIN, NOVEL};
@@ -17,18 +18,23 @@ struct category {
     struct Inventory *inv_head;
 };
 
-/****************************************
- * Order: use queue to implement *
- ****************************************/
-struct Order {
+/********************************
+* Order: use queue to implement *
+*********************************/
+struct order {
     char CustomerName [MAX_CUSTOMER_NAME];
     int orderId;
     int inventoryIds [20];
     int inventoryQuantity [20];
     int totalPrice;
     time_t orderDate;
-    struct Order *prev;
-    struct Order *next;
+    struct order *prev;
+    struct order *next;
+};
+
+struct orderQueue {
+    struct order *head;
+    struct order *tail;
 };
 
 #endif
