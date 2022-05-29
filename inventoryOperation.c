@@ -81,13 +81,13 @@ void sortInv(int order, int order_by){
 		if(order_by == 0){
 			//sort by id
 			for(i = 0; i < MAX_CATEGORY; i++){
-				sort(cat_list[i].inv_head,cmpDesById);
+				_sort(cat_list[i].inv_head,cmpDesById);
 			}
 		}
 		else if(order_by == 1){
 			//sort by price
 			for(i = 0; i < MAX_CATEGORY; i++){
-				sort(cat_list[i].inv_head,cmpDesByPrice);
+				_sort(cat_list[i].inv_head,cmpDesByPrice);
 			}
 		}
 		else{
@@ -99,13 +99,13 @@ void sortInv(int order, int order_by){
 		if(order_by == 0){
 			//sort by id
 			for(i = 0; i < MAX_CATEGORY; i++){
-				sort(cat_list[i].inv_head,cmpAscById);
+				_sort(cat_list[i].inv_head,cmpAscById);
 			}
 		}
 		else if(order == 1){
 			//sort by price
 			for(i = 0; i < MAX_CATEGORY; i++){
-				sort(cat_list[i].inv_head,cmpAscByPrice);
+				_sort(cat_list[i].inv_head,cmpAscByPrice);
 			}
 		}
 		else{

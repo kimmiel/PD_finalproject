@@ -6,6 +6,6 @@
 /**********************************************************
 * use to sort the inventory，compar is a function pointer *
 **********************************************************/
-void sort(struct inventory *head, int (*cmp)(struct inventory *a, struct inventory *b));
+void _sort(struct inventory *head, int (*cmp) (const void *a, const void *b));
 
 #endif
