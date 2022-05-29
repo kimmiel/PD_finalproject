@@ -135,7 +135,8 @@ for(int i = 0; i < MAX_CATEGORY; i++){
 	}
 	if (prev == NULL)
 	{
-		cat_list[i].inv_head = (cat_list[i].inv_head)->next;
+		struct inventory *next_inv = cat_list[i].inv_head;
+		cat_list[i].inv_head = next_inv->next;
 	}
 	else
 	{
@@ -214,7 +215,7 @@ int cmpAscById(const void *a, const void *b){
 int cmpDesByPrice(const void *a, const void *b){
 
 	double a_price = ((struct inventory *)a)->price;
-	double b_price = ((struct inventiry *)b)->price;
+	double b_price = ((struct inventory *)b)->price;
 
 	if(a_price > b_price){
 		return 1;
@@ -230,7 +231,7 @@ int cmpDesByPrice(const void *a, const void *b){
 int cmpAscByPrice(const void *a, const void *b){
 
 	double a_price = ((struct inventory *)a)->price;
-	double b_price = ((struct inventiry *)b)->price;
+	double b_price = ((struct inventory *)b)->price;
 
 	if(a_price > b_price){
 		return -1;
