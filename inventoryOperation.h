@@ -1,9 +1,10 @@
 #ifndef inventoryOperation
 #define inventoryOperation
 #include "basic.h"
+#include "myDS.h"
 
  void initInv(void);//initialization
- void addInv(char name[], double prrice, int quantity, enum btype type);//add produce
+ void addInv(char name[], double prrice, int quantity, enum bookType type);//add produce
  void traversaInv();//printf each item
  void sortInv(int order, int order_by);//order(1:升序 0:降序) order_by(1:price 0:id)
  void deleteInv(int id);//delete produce

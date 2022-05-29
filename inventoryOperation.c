@@ -1,4 +1,3 @@
-#include "myDS.h"
 #include "inventoryOperation.h"
 #include "sort.h"
 
@@ -20,7 +19,7 @@ void initInv(void){
 	type3_len = 0;
 }
 
-void addInv(char name[], double price, int quantity, enum btype type){
+void addInv(char name[], double price, int quantity, enum bookType type){
 	//id for each inventory
 	static int IDs[] = {100, 200, 300};
 

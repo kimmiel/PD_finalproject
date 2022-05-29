@@ -2,6 +2,8 @@
     "files.associations": {
         "stdio.h": "c",
         "stdlib.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "inventoryoperation.h": "c",
+        "orderoperation.h": "c"
     }
 }
