@@ -26,12 +26,12 @@ void addInv(char name[], double price, int quantity, enum bookType type){
 	//new inventory
 	struct inventory *new_inv = malloc(sizeof(struct inventory));
 	new_inv->inventoryId = IDs[type];
-	new_inv->inventoryName = name;
+	strcpy(new_inv->inventoryName, name);
 	new_inv->price = price;
 	new_inv->quantity = quantity;
 	new_inv->next = NULL;
 
-	if(cat_list[type] == NULL){//if the list is null
+	if(cat_list[type].inv_head == NULL){//if the list is null
 		cat_list[type].inv_head = new_inv;
 	}
 	else{
@@ -67,7 +67,7 @@ void traversaInv(){
 		printf("id\tname\tprice\tquantity\n");//print title
 		while(current != NULL){
 			//printf each item
-			printf("%d\t%s\t%f\t%d\n", current->id, current->name, current->price, current->quantity);
+			printf("%d\t%s\t%f\t%d\n", current->inventoryId, current->inventoryName, current->price, current->quantity);
 			current = current->next;
 		}
 		
@@ -125,7 +125,7 @@ void deleteInv(int id){//delete produce
 struct inventory *cur, *prev;
 for(int i = 0; i < MAX_CATEGORY; i++){
 	for (cur = cat_list[i].inv_head , prev = NULL;
-		 cur != NULL && cur->id==id;
+		 cur != NULL && cur->inventoryId==id;
 		 prev = cur, cur = cur->next)
 		;
 	if (cur == NULL)
@@ -135,7 +135,7 @@ for(int i = 0; i < MAX_CATEGORY; i++){
 	}
 	if (prev == NULL)
 	{
-		cat_list[i].inv_head = cat_list[i].inv_head->next;
+		cat_list[i].inv_head = (cat_list[i].inv_head)->next;
 	}
 	else
 	{
@@ -153,10 +153,10 @@ void searchByID(int id){//search id and print the specific item
 		for (p = cat_list[i].inv_head; p != NULL; p = p->next)
 	{ //找id位置
 
-		if (p->id==id)
+		if (p->inventoryId==id)
 		{
 			//print item
-			printf("%d\t%s\t%f\t%d\n", p->id, p->name, p->price, p->quantity);
+			printf("%d\t%s\t%f\t%d\n", p->inventoryId, p->inventoryName, p->price, p->quantity);
 			count++;
 
 		}
@@ -176,10 +176,10 @@ void searchByName(char name[]){//search name and print the specific item
 		for (p = cat_list[i].inv_head; p != NULL; p = p->next)
 	{ //找name位置
 
-		if (strcmp(p->name,name)==0)
+		if (strcmp(p->inventoryName,name)==0)
 		{
 			//print item
-			printf("%d\t%s\t%f\t%d\n", p->id, p->name, p->price, p->quantity);
+			printf("%d\t%s\t%f\t%d\n", p->inventoryId, p->inventoryName, p->price, p->quantity);
 			count++;
 
 		}
@@ -195,8 +195,8 @@ void searchByName(char name[]){//search name and print the specific item
 
 int cmpDesById(const void *a, const void *b){
 
-	int a_ID = ((struct inventory *)a)->id;
-	int b_ID = ((struct inventory *)b)->id;
+	int a_ID = ((struct inventory *)a)->inventoryId;
+	int b_ID = ((struct inventory *)b)->inventoryId;
 
 	return a_ID - b_ID;
 
@@ -204,8 +204,8 @@ int cmpDesById(const void *a, const void *b){
 
 int cmpAscById(const void *a, const void *b){
 
-	int a_ID = ((struct inventory *)a)->id;
-	int b_ID = ((struct inventory *)b)->id;
+	int a_ID = ((struct inventory *)a)->inventoryId;
+	int b_ID = ((struct inventory *)b)->inventoryId;
 
 	return b_ID - a_ID;
 
@@ -243,10 +243,10 @@ int cmpAscByPrice(const void *a, const void *b){
 	}
 }
 
-void printList(struct inventory arr[]){
-	int i;
-	printf("id\tname\tprice\tquantity\n");//print title
-	for(i = 0; i < arr.length; i++){
-		printf("%d\t%s\t%f\t%d\n", arr[i].id, arr[i].name, arr[i].price, arr[i].quantity);
-	}
-}
+// void printList(struct inventory arr[]){
+// 	int i;
+// 	printf("id\tname\tprice\tquantity\n");//print title
+// 	for(i = 0; i < arr.length; i++){
+// 		printf("%d\t%s\t%f\t%d\n", arr[i].inventoryId, arr[i].inventoryName, arr[i].price, arr[i].quantity);
+// 	}
+// }
