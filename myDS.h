@@ -13,7 +13,7 @@ struct inventory {
     struct inventory *next;
 };
 
-struct Categoty {
+struct categoty {
     enum bookType type;
     struct Inventory *Inventory_head;
 };

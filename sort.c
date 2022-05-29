@@ -1,4 +1,5 @@
 #include "sort.h"
+#include "myDS.h"
 
 void sort(struct inventory *head, int (*cmp)(struct inventory *a, struct inventory *b)){
     head = quicksort(head, find_tail(head), cmp);

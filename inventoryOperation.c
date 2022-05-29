@@ -26,8 +26,8 @@ void addInv(char name[], double price, int quantity, enum btype type){
 
 	//new inventory
 	struct inventory *new_inv = malloc(sizeof(struct inventory));
-	new_inv->id = IDs[type];
-	new_inv->name = name;
+	new_inv->inventoryId = IDs[type];
+	new_inv->inventoryName = name;
 	new_inv->price = price;
 	new_inv->quantity = quantity;
 	new_inv->next = NULL;
