@@ -13,7 +13,7 @@ void searchOrder(struct orderQueue *q, int orderId){
         struct order *cur = q;
         while (cur->next != NULL){
             if(cur->orderId == orderId){
-                printf("Find!\n");
+                printf("Find order:%d!\n", cur->orderId);
                 return;
             }
             else{
