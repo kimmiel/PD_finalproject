@@ -13,17 +13,17 @@ struct orderQueue *initOrder(void);
 *          Empty: return FALSE             *
 *          Non empty: return TRUE          *
 ********************************************/
-BOOL isEmpty(struct orderQueue *q);
+BOOL isEmpty(void);
 
 /********************
 * addOrder: Enqueue *
 *********************/
-BOOL addOrder(struct orderQueue *q, char CustomerName[], int orderId, int inventoryIds [], int inventoryQuantity [], int totalPrice, time_t orderDate);
+BOOL addOrder(char CustomerName[], int inventoryIds [], int inventoryQuantity [], int totalPrice, time_t orderDate);
 
 /****************************************************************
 * sortOrder: sort order by id or total price in ASC or DESC way *
 *****************************************************************/
-void sortOrder(struct orderQueue *q, int order, int order_by);
+void sortOrder(int order, int order_by);
 
 /*******************************************************
 * searchOrder: search order by id and print order info *
