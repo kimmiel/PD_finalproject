@@ -81,17 +81,14 @@ void sortOrder(int order, int order_by)
         }
     }
 }
-BOOL isEmpty(struct orderQueue *q){
-    return !(q->head)? TRUE:FALSE;
-}
 
-void searchOrder(struct orderQueue *q, int orderId){
-    if(isEmpty(q)){
+void searchOrder(int orderId){
+    if(isEmpty()){
         printf("There is no order.\n");
         return;
     }
     else{
-        struct order *cur = q;
+        struct order *cur = order_queue.head;
         while (cur->next != NULL){
             if(cur->orderId == orderId){
                 printf("Find order:%d!\n", cur->orderId);
@@ -105,27 +102,27 @@ void searchOrder(struct orderQueue *q, int orderId){
     }
 }
 
-BOOL completeOrder(struct orderQueue *q){
-    if(isEmpty(q)){
+BOOL completeOrder(){
+    if(isEmpty()){
         printf("There is no order.\n");
         return FALSE;
     }
     else{
-        struct order *toComplete = q->head;
-        q->head = q->head->next;
+        struct order *toComplete = order_queue.head;
+        order_queue.head = order_queue.head->next;
         printf("Order:%d complete!\n", toComplete->orderId); //for debug
         free(toComplete);
         return TRUE;
     }
 }
 
-BOOL cancelOrder(struct orderQueue *q, int orderId){
-    if(isEmpty(q)){
+BOOL cancelOrder(int orderId){
+    if(isEmpty()){
         printf("There is no order.\n");
         return FALSE;
     }
     else{
-        struct order *cur = q;
+        struct order *cur = order_queue.head;
         while (cur->next != NULL){
             if(cur->orderId == orderId){
                 struct order *toCancel = cur;

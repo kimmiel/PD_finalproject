@@ -28,20 +28,20 @@ void sortOrder(int order, int order_by);
 /*******************************************************
 * searchOrder: search order by id and print order info *
 ********************************************************/
-void searchOrder(struct orderQueue *q, int orderId);
+void searchOrder(int orderId);
 
 /*************************************************************************
 * completeOrder: delete queue of head for complete the most ealier order *
 **************************************************************************/
-BOOL completeOrder(struct orderQueue *q);
+BOOL completeOrder();
 
 /***************************************************
 * cancelOrder: delete queue by id for cancel order * 
 ****************************************************/
-BOOL cancelOrder(struct orderQueue *q, int orderId);
+BOOL cancelOrder(int orderId);
 
 /************************************************************************************************************
 * checkReplenish: compare quantity between order and inventory, check whether to send a replenishment alert * 
 *************************************************************************************************************/
-void checkReplenish(struct orderQueue *q, int inventoryId);
+void checkReplenish(int inventoryId);
 #endif 
