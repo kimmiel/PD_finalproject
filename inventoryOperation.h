@@ -10,6 +10,6 @@
  void deleteInv(int id);//delete produce
  void searchInvByID(int id);//search id and print the specific item
  void searchInvByName(char name[]);//search name and print the specific item
- void printList(struct inventory arr[]);//print out the id,name,price,quantity
+
  
 #endif
