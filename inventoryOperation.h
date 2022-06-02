@@ -10,10 +10,6 @@
  void deleteInv(int id);//delete produce
  void searchInvByID(int id);//search id and print the specific item
  void searchInvByName(char name[]);//search name and print the specific item
- int cmpDesById(const void *a, const void *b);//Compare for qsort
- int cmpAscById(const void *a, const void *b);//Compare for qsort
- int cmpDesByPrice(const void *a, const void *b);//Compare for qsort
- int cmpAscByPrice(const void *a, const void *b);//Compare for qsort
  void printList(struct inventory arr[]);//print out the id,name,price,quantity
  
 #endif
