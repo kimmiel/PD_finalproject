@@ -13,35 +13,35 @@ struct orderQueue *initOrder(void);
 *          Empty: return FALSE             *
 *          Non empty: return TRUE          *
 ********************************************/
-BOOL isEmpty(struct orderQueue *q);
+BOOL isEmpty(void);
 
 /********************
 * addOrder: Enqueue *
 *********************/
-BOOL addOrder(struct orderQueue *q, char CustomerName[], int orderId, int inventoryIds [], int inventoryQuantity [], int totalPrice, time_t orderDate);
+BOOL addOrder(char CustomerName[], int inventoryIds [], int inventoryQuantity [], int totalPrice, time_t orderDate);
 
 /****************************************************************
 * sortOrder: sort order by id or total price in ASC or DESC way *
 *****************************************************************/
-void sortOrder(struct orderQueue *q, int order, int order_by);
+void sortOrder(int order, int order_by);
 
 /*******************************************************
 * searchOrder: search order by id and print order info *
 ********************************************************/
-void searchOrder(struct orderQueue *q, int orderId);
+void searchOrder(int orderId);
 
 /*************************************************************************
 * completeOrder: delete queue of head for complete the most ealier order *
 **************************************************************************/
-BOOL completeOrder(struct orderQueue *q);
+BOOL completeOrder();
 
 /***************************************************
 * cancelOrder: delete queue by id for cancel order * 
 ****************************************************/
-BOOL cancelOrder(struct orderQueue *q, int orderId);
+BOOL cancelOrder(int orderId);
 
 /************************************************************************************************************
 * checkReplenish: compare quantity between order and inventory, check whether to send a replenishment alert * 
 *************************************************************************************************************/
-void checkReplenish(struct orderQueue *q, int inventoryId);
+void checkReplenish(int inventoryId);
 #endif 
