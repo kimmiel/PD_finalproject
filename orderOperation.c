@@ -8,11 +8,11 @@ BOOL isEmpty(void)
     return !(order_queue.head) ? true : false;
 }
 
-
 BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], int totalPrice, time_t orderDate)
 {
     static int orderID = 0;
 
+    //declare order_new
     struct order *order_new = malloc(sizeof(struct order));
     if (!order_new)
     {
@@ -32,6 +32,7 @@ BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], 
     order_new->prev = NULL;
     order_new->next = NULL;
     
+    //queue is empty. enqueue order_new.
     if (isEmpty()) 
     {
         order_queue.head = order_new;
@@ -39,6 +40,7 @@ BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], 
         return true;
     }
     
+    //queue is not empty. enqueue order_new. 
     order_queue.tail->next = order_new;
     order_new->prev = order_queue.tail;
     order_queue.tail = order_new;
@@ -46,7 +48,7 @@ BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], 
     return true;
 }
 
-//order(1:升序 0:降序) order_by(1:price 0:id)
+//order(1:升序 s:降序) order_by(1:price 0:id)
 void sortOrder(int order, int order_by)
 {
     struct order *ptr;
@@ -57,7 +59,6 @@ void sortOrder(int order, int order_by)
             for(ptr = order_queue.tail ; ptr != NULL ; ptr = ptr->prev)
             {
                 //how to print??
-                
             }
         }
         else if(order == 1)
