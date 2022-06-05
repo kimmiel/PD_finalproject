@@ -1,7 +1,9 @@
 #include "fileIO.h"
+#include "orderOperation.h"
+
 
 /**/
-int check_type(char c_type)
+int check_type(char *c_type)
 {
     if      (!strcmp (c_type, "EDU"))   return EDU;
     else if (!strcmp (c_type, "FIN"))   return FIN;
@@ -350,7 +352,7 @@ void order()
             for(int i = 0 ; i < num_del ; i++){
                 printf("Enter the %d's order id to detete: ",i);
                 scanf("%d",&id_del);
-                deleteOrder(id_del);
+                cancelOrder(id_del);
             }
         }
         else if(action == 2)

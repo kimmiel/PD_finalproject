@@ -160,7 +160,7 @@ void searchOrder(int orderId){
 BOOL completeOrder(){
     if(isEmpty()){
         printf("There is no order.\n");
-        return FALSE;
+        return false;
     }
     else{
         num_order--;
@@ -168,14 +168,14 @@ BOOL completeOrder(){
         order_queue.head = order_queue.head->next;
         printf("Order:%d complete!\n", toComplete->orderId); //for debug
         free(toComplete);
-        return TRUE;
+        return true;
     }
 }
 
 BOOL cancelOrder(int orderId){
     if(isEmpty()){
         printf("There is no order.\n");
-        return FALSE;
+        return false;
     }
     else{
         struct order *cur = order_queue.head;
@@ -186,13 +186,13 @@ BOOL cancelOrder(int orderId){
                 cur->next->prev = cur->prev;
                 printf("Order:%d canceled!\n", toCancel->orderId); //for debug
                 free(toCancel);
-                return TRUE;
+                return true;
             }
             else{
                 cur = cur->next;
             }
         }
         printf("Order not exist\n");
-        return FALSE;
+        return false;
     }
 }

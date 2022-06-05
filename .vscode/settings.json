@@ -4,6 +4,9 @@
         "stdlib.h": "c",
         "stdbool.h": "c",
         "inventoryoperation.h": "c",
-        "orderoperation.h": "c"
+        "orderoperation.h": "c",
+        "sort.h": "c",
+        "basic.h": "c",
+        "myds.h": "c"
     }
 }

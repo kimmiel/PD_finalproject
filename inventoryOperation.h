@@ -11,5 +11,8 @@
  void searchInvByID(int id);//search id and print the specific item
  void searchInvByName(char name[]);//search name and print the specific item
 
- 
+ int cmpDesById(const void *a, const void *b);
+ int cmpAscById(const void *a, const void *b);
+ int cmpDesByPrice(const void *a, const void *b);
+ int cmpAscByPrice(const void *a, const void *b);
 #endif

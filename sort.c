@@ -5,7 +5,7 @@ void _sort(struct inventory *head, int (*cmp) (const void *a, const void *b)){
     head = quicksort(head, find_tail(head), cmp);
 }
 
-struct inventory *quicksort(struct inventory *head, struct inventory *tail, int (*cmp)(struct inventory *a, struct inventory *b)){
+struct inventory *quicksort(struct inventory *head, struct inventory *tail, int (*cmp)(const void *a, const void *b)){
     if(head == tail){
         //nothing to sort
         return head;
@@ -47,7 +47,7 @@ struct inventory *find_tail(struct inventory *head){
     return current;
 }
 
-struct inventory *partition(struct inventory *head, struct inventory *tail, struct inventory **new_head, struct inventory **new_tail, int (*cmp)(struct inventory *a, struct inventory *b)){
+struct inventory *partition(struct inventory *head, struct inventory *tail, struct inventory **new_head, struct inventory **new_tail, int (*cmp)(const void *a, const void *b)){
     struct inventory *pivot = head;//set the first node as pivot
     struct inventory *current = head;
     struct inventory *prev = NULL;

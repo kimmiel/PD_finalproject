@@ -146,7 +146,7 @@ for(int i = 0; i < MAX_CATEGORY; i++){
 }
 }
 
-void searchByID(int id){//search id and print the specific item
+void searchInvByID(int id){//search id and print the specific item
 	struct inventory *p;
 	int count = 0;
 	p = malloc(sizeof(struct inventory));
@@ -169,7 +169,7 @@ void searchByID(int id){//search id and print the specific item
 
 }
 
-void searchByName(char name[]){//search name and print the specific item
+void searchInvByName(char name[]){//search name and print the specific item
 	struct inventory *p;
 	int count = 0;
 	p = malloc(sizeof(struct inventory));

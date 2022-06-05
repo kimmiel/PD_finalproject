@@ -15,7 +15,7 @@ struct inventory {
 
 struct category {
     enum bookType type;
-    struct Inventory *inv_head;
+    struct inventory *inv_head;
 };
 
 /********************************
