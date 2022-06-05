@@ -8,7 +8,7 @@ BOOL isEmpty(void)
     return !(order_queue.head) ? true : false;
 }
 
-BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], int totalPrice, time_t orderDate)
+BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], int totalPrice)
 {
     static int orderID = 0;
 
@@ -28,7 +28,8 @@ BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], 
         order_new->inventoryQuantity[i] = inventoryQuantity[i];
     }
     order_new->totalPrice = totalPrice;
-    order_new->orderDate = orderDate;
+    time(&order_new->orderDate);
+    //order_new->orderDate = orderDate;
     order_new->prev = NULL;
     order_new->next = NULL;
     
@@ -73,13 +74,18 @@ void sortOrder(int order, int order_by)
     {
         if(order == 0)
         {
-
+            
         }
         else if(order == 1)
         {
 
         }
     }
+}
+
+void showOrder(struct order *ptr)
+{
+    printf("%s\t%d\t%d\t");
 }
 
 void searchOrder(int orderId){
