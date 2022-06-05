@@ -194,6 +194,31 @@ void searchInvByName(char name[]){//search name and print the specific item
 
 /************end************/
 
+void replenish(int replenish_id,int replenish_num){
+	int i = 0;
+	int type = 0;
+	//check inventory type
+	if(replenish_id - 300 > 0){
+		type = 2;
+	}
+	else if(replenish_id - 200 > 0){
+		type = 1;
+	}
+	else if(replenish_id - 100 > 0){
+		type = 0;
+	}
+
+	struct inventory *cur = cat_list[type].inv_head;
+	while(cur != NULL){
+		if(cur->inventoryId == replenish_id){
+			cur->quantity += replenish_num;
+			break;
+		}
+
+		cur = cur->next;
+	}
+}
+
 int cmpDesById(const void *a, const void *b){
 
 	int a_ID = ((struct inventory *)a)->inventoryId;
@@ -243,11 +268,3 @@ int cmpAscByPrice(const void *a, const void *b){
 		return 1;
 	}
 }
-
-// void printList(struct inventory arr[]){
-// 	int i;
-// 	printf("id\tname\tprice\tquantity\n");//print title
-// 	for(i = 0; i < arr.length; i++){
-// 		printf("%d\t%s\t%f\t%d\n", arr[i].inventoryId, arr[i].inventoryName, arr[i].price, arr[i].quantity);
-// 	}
-// }

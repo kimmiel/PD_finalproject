@@ -10,6 +10,7 @@
  void deleteInv(int id);//delete produce
  void searchInvByID(int id);//search id and print the specific item
  void searchInvByName(char name[]);//search name and print the specific item
+ void replenish(int replenish_id,int replenish_num);//replenish the inventory
 
  int cmpDesById(const void *a, const void *b);
  int cmpAscById(const void *a, const void *b);
