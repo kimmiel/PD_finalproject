@@ -24,8 +24,8 @@ struct category {
 struct order {
     char CustomerName [MAX_CUSTOMER_NAME];
     int orderId;
-    int inventoryIds [20];
-    int inventoryQuantity [20];
+    int inventoryIds[20];
+    int inventoryQuantity[20];
     int totalPrice;
     time_t orderDate;
     struct order *prev;

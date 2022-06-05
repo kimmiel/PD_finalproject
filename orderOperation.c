@@ -196,3 +196,19 @@ BOOL cancelOrder(int orderId){
         return false;
     }
 }
+
+
+void checkReplenish(int inventoryId){
+    int i;
+    struct order *cur = order_queue.tail;//the newest order data
+        int ids_len = sizeof(cur->inventoryIds)/sizeof(cur->inventoryIds[0]);
+        for(i = 0; i < ids_len; i++){//find the id
+            if(cur->inventoryIds[i] == inventoryId){
+                if(cur->inventoryQuantity[i] < 10){
+                    printf("商品庫存過少，請補貨\n");
+                    return;
+                }
+            }
+        }
+}
+
