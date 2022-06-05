@@ -2,6 +2,18 @@
 
 //initial order queue
 struct orderQueue order_queue = {NULL,NULL};  
+static int num_order = 0;
+void showOrder(struct order *ptr)
+{
+    //print: orderId CustomerName inventoryIds[5] inventoryQuantity[5] totalPrice orderDate
+    struct tm *order_time;
+    order_time = gmtime(&ptr->orderDate);
+    printf("%d\t%s\t%d %d\t%d %d\t%d %d\t%d %d\t%d %d\t%d\t%d/%d/%d\n",
+        ptr->orderId, ptr->CustomerName, ptr->inventoryIds[0], ptr->inventoryQuantity[0],
+        ptr->inventoryIds[1], ptr->inventoryQuantity[1], ptr->inventoryIds[2], ptr->inventoryQuantity[2],
+        ptr->inventoryIds[3], ptr->inventoryQuantity[3], ptr->inventoryIds[4], ptr->inventoryQuantity[4],
+        ptr->totalPrice,(1900+order_time->tm_year), (1+order_time->tm_mon),order_time->tm_mday);   
+}
 
 BOOL isEmpty(void)
 {  
@@ -11,6 +23,7 @@ BOOL isEmpty(void)
 BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], int totalPrice)
 {
     static int orderID = 0;
+    num_order++;
 
     //declare order_new
     struct order *order_new = malloc(sizeof(struct order));
@@ -49,9 +62,33 @@ BOOL addOrder(char CustomerName[], int inventoryIds[], int inventoryQuantity[], 
     return true;
 }
 
-//order(1:升序 s:降序) order_by(1:price 0:id)
+void insertion_sort(int total_price[],struct order *order[], int n) {
+  for (int i = 0; i < n; i++) {
+    int j = i;
+    while (j > 0 && total_price[j - 1] > total_price[j]) 
+    {
+        int temp = total_price[j];
+        total_price[j] = total_price[j - 1];
+        total_price[j - 1] = temp;
+
+        struct order *temp_order = order[j];
+        order[j] = order[j - 1];
+        order[j - 1] = temp_order;
+
+        j--;
+    }
+  }
+}
+
+//order(0:increasing, 1:decreasing) order_by(0:id, 1:total price )
 void sortOrder(int order, int order_by)
 {
+    if(isEmpty())
+    {
+        printf("There is no order.\n");
+        return;
+    }
+
     struct order *ptr;
     if(order_by == 0)
     {
@@ -59,33 +96,45 @@ void sortOrder(int order, int order_by)
         {
             for(ptr = order_queue.tail ; ptr != NULL ; ptr = ptr->prev)
             {
-                //how to print??
+                showOrder(ptr);
             }
         }
         else if(order == 1)
         {
             for(ptr = order_queue.head ; ptr != NULL ; ptr = ptr->next)
             {
-                //how to print??
+                showOrder(ptr);
             }
         }
     }
     else if(order_by == 1)
     {
-        if(order == 0)
+        struct order **price_order = malloc( num_order * sizeof(struct order *));
+        int *total_price = malloc(num_order * sizeof( int ));
+        int i = 0;
+        for(ptr = order_queue.tail ; ptr != NULL ; ptr = ptr->prev)
         {
-            
+            total_price[i] = ptr->totalPrice;
+            price_order[i++] = ptr;
+        }
+
+        insertion_sort(total_price,price_order,num_order);
+         
+        if(order == 0)
+        {   
+            for(i = 0;i<num_order;i++)
+            {
+                showOrder(price_order[i]);                
+            }
         }
         else if(order == 1)
         {
-
+            for(i = num_order-1 ; i >= 0 ; i++)
+            {
+                showOrder(price_order[i]);                 
+            }
         }
     }
-}
-
-void showOrder(struct order *ptr)
-{
-    printf("%s\t%d\t%d\t");
 }
 
 void searchOrder(int orderId){
@@ -114,6 +163,7 @@ BOOL completeOrder(){
         return FALSE;
     }
     else{
+        num_order--;
         struct order *toComplete = order_queue.head;
         order_queue.head = order_queue.head->next;
         printf("Order:%d complete!\n", toComplete->orderId); //for debug
