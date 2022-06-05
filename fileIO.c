@@ -1,20 +1,15 @@
 #include "fileIO.h"
 
-/*
- *i will write it later!! 
- * **/
+/**/
 int check_type(char c_type)
 {
-    if(!strcmp(c_type, "EDU"))      return EDU;
-
-    else if(!strcmp(c_type, "FIN")) return FIN;
-    
-    else if(!strcmp(c_type,"NOVEL"))return NOVEL;
-
+    if      (!strcmp (c_type, "EDU"))   return EDU;
+    else if (!strcmp (c_type, "FIN"))   return FIN;
+    else if (!strcmp (c_type,"NOVEL"))  return NOVEL;
     //ERROR : type is not in the category list.
     else  return -1;
 }
-
+/**/
 void readInv(void)
 {
     int input;
@@ -47,7 +42,7 @@ void readInv(void)
         	int row = 0;
 
         	/*problem : how to deal with syntax errors in the file?*/
-        	while (fgets(buffer, 1024, fp)) 
+        	while(fgets(buffer, 1024, fp)) 
 			{
            		row++;
  
@@ -57,19 +52,19 @@ void readInv(void)
             	if (row == 1) continue;
 
             	// Splitting the data
-            	char* value = strtok(buffer, ", ");
+            	char* value = strtok(buffer, ", \n");
 
             	// Column 1 : Name
             	name = value;
-            	value = strtok(NULL, ", ");
+            	value = strtok(NULL, ", \n");
 
             	// Column 2 : Price
             	price = atoi(value);    /*problem : if atoi() return error value.*/
-            	value = strtok(NULL, ", ");
+            	value = strtok(NULL, ", \n");
 
             	// Column 3 : Quantity
             	quantity = atoi(value); /*problem : if atoi() return error value.*/
-            	value = strtok(NULL, ", ");
+            	value = strtok(NULL, ", \n");
 
             	// Column 4 : Type
             	c_type = value;
@@ -79,13 +74,13 @@ void readInv(void)
                 {
                     //there are at least one value lost.
                     printf("ERROR : Line %d has missing value.\n", row);
-                    return;
+                    break;
                 }
                 if(type == -1)
                 {
                     //the type value is not in the list of category.        
                     printf("ERROR : The type attribute on line %d is incorrect\n", row);
-                    return;
+                    break;
                 }
                 addInv(name,price,quantity,type);
 			}
@@ -122,13 +117,130 @@ void readInv(void)
     }
 }
 
-void printInv(void);
+void printInv(void)
+{
+    int order, order_by;
+    printf("To show the data, which attribute do you want to sort?\n");
+    printf("[0] id or [1] price: ");
+    scanf("%d", &order_by);
+    printf("[0] increasing or [1] decreasing: ");
+    scanf("%d", &order);
+    sortInv(order,order_by);
+    traversaInv();
+}
 
-void mainMenu(void);
+void readOrder(void)
+{
+    int input;
+    const char path[100];
 
-void readOrder(void);
+    printf("Which type of data you want to input?\n");
+    printf("[0] File or [1] Manual entry: ");
+    scanf("%d", &input);
 
-void printOrder(void);
+    if(input == 0)
+    {
+		const char path[100];
+        printf("File path: ");
+        scanf("%s", path);
+
+		//testing path: "C:\\Users\\phoebe\\Documents\\testing_order.csv"
+        //FILE* fp = fopen("testing_order.csv", "r");
+        FILE* fp = fopen(path, "r");
+		printf("%s\n",path);
+		
+		if (!fp)
+		{
+			printf("Can't open file\n");
+		}
+    	else 
+		{
+			char *CustomerName;
+			int inventoryIds [5], inventoryQuantity [5], totalPrice;
+        
+        	// Here we have taken size of
+        	// array 1024 you can modify it
+        	char buffer[1024];
+        	int row = 0;
+
+        	while (fgets(buffer, 1024, fp)) 
+			{
+           		row++; 
+            	// To avoid printing of column
+            	// names in file can be changed
+            	// according to need
+            	if (row == 1) continue;
+
+            	// Splitting the data
+            	char* value = strtok(buffer, ", \n");
+
+            	// Column 1 : Name
+            	CustomerName = value;
+            	value = strtok(NULL, ", \n");
+
+                // Column 2~11 : item info
+                for(int i = 0 ; i < 5 ; i++)
+                {
+                    // item i id
+            	    inventoryIds [i] = atoi(value);
+            	    value = strtok(NULL, ", \n");
+
+            	    // item i  quantity
+            	    inventoryQuantity [i] = atoi(value);
+            	    value = strtok(NULL, ", \n");
+                }
+
+            	// Column 12 : totalPrice
+            	totalPrice = atoi(value);
+
+                if(value == NULL)
+                {
+                    // there are at least one value lost.
+                    printf("ERROR : Line %d has missing value.\n", row);
+                    break;
+                }
+
+                addOrder(CustomerName, inventoryIds, inventoryQuantity,totalPrice);
+			}
+        // Close the file
+        fclose(fp);
+		}
+    }
+    else if(input == 1)
+    {
+		char *CustomerName;
+		int inventoryIds [5], inventoryQuantity [5], totalPrice;
+
+        printf("CustomerName: ");
+        scanf("%s", CustomerName);
+
+        for(int i = 0 ;i < 5 ; i++)
+        {
+            printf("Product %d ID: ", i);
+            scanf("%d", &inventoryIds[i]);
+
+            printf("Product %d Amount: ", i);
+            scanf("%d", &inventoryQuantity[i]);
+        }
+
+        printf("total price: ");
+        scanf("%d", &totalPrice);
+
+		//printf("%s\t%d\t%d\t%s\n",name, price, quantity, type);
+        addOrder(CustomerName, inventoryIds, inventoryQuantity,totalPrice);
+    }
+}
+
+void printOrder(void)
+{
+    int order, order_by;
+    printf("To show the data, which attribute do you want to sort?\n");
+    printf("[0] id or [1] total price: ");
+    scanf("%d", &order_by);
+    printf("[0] increasing or [1] decreasing: ");
+    scanf("%d", &order);
+    sortOrder(order,order_by);
+}
 
 void inventory()
 {
@@ -162,21 +274,13 @@ void inventory()
         }
         else if(action == 2)
         {
-            //problem: how to do with the input is in the list correct.
-            int order, order_by;
-            printf("To show the data, which attribute do you want to sort?\n");
-            printf("[0] id or [1] price: ");
-            scanf("%d", &order_by);
-            printf("[0] increasing or [1] decreasing: ");
-            scanf("%d", &order);
-            sortInv(order,order_by);
-            traversaInv();
+            printInv();
         }
         else if(action == 3)
         {
             int search_by;
             int search_id;
-            char search_name[NAME_SIZE];
+            char search_name[MAX_BOOK_NAME];
 
             printf("Which attribute you want to search with?\n");
             printf("[0] id or [1] name: ");
@@ -211,7 +315,7 @@ void inventory()
         }
         else if(action == 5)
         {
-            return;
+            break;
         }
         else
         {
@@ -270,7 +374,7 @@ void order()
         }
         else if(action == 4)
         {
-            return;
+            break;
         }
         else
         {
@@ -295,7 +399,7 @@ void main_menu()
             order();
         }
         else if(act_data == 2){
-            return;
+            break;
         }
         else{
             printf("Please enter the correct value.\n");
