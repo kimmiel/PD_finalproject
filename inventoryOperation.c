@@ -19,7 +19,7 @@ void initInv(void){
 	type3_len = 0;
 }
 
-void addInv(char name[], double price, int quantity, enum bookType type){
+bool addInv(char name[], double price, int quantity, enum bookType type){
 	//id for each inventory
 	static int IDs[] = {100, 200, 300};
 
@@ -56,42 +56,49 @@ void addInv(char name[], double price, int quantity, enum bookType type){
 	else if(type == NOVEL){
 		type3_len++;
 	}
-
-}
-
-void traversaInv(){
-	int i;
-	for(i = 0; i < MAX_CATEGORY; i++){
-		printf("type %d:\n", i);//print type
-		struct inventory *current = cat_list[i].inv_head;
-		printf("id\tname\tprice\tquantity\n");//print title
-		while(current != NULL){
-			//printf each item
-			printf("%d\t%s\t%f\t%d\n", current->inventoryId, current->inventoryName, current->price, current->quantity);
-			current = current->next;
-		}
-		
+	else{
+		return false;
 	}
+
+	return true;
 }
 
-void sortInv(int order, int order_by){
+struct category *traversaInv(){
+
+	return cat_list;
+	// int i;
+	// for(i = 0; i < MAX_CATEGORY; i++){
+	// 	printf("type %d:\n", i);//print type
+	// 	struct inventory *current = cat_list[i].inv_head;
+	// 	printf("id\tname\tprice\tquantity\n");//print title
+	// 	while(current != NULL){
+	// 		//printf each item
+	// 		printf("%d\t%s\t%.2f\t%d\n", current->inventoryId, current->inventoryName, current->price, current->quantity);
+	// 		current = current->next;
+	// 	}
+		
+	// }
+}
+
+bool sortInv(int order, int order_by){
 	int i = 0;
 	if(order == 0){
 		//descending
 		if(order_by == 0){
 			//sort by id
 			for(i = 0; i < MAX_CATEGORY; i++){
-				_sort(cat_list[i].inv_head,cmpDesById);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpDesById);
 			}
 		}
 		else if(order_by == 1){
 			//sort by price
 			for(i = 0; i < MAX_CATEGORY; i++){
-				_sort(cat_list[i].inv_head,cmpDesByPrice);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpDesByPrice);
 			}
 		}
 		else{
-			fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
+			//fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
+			return false;
 		}
 	}
 	else if(order == 1){
@@ -99,51 +106,55 @@ void sortInv(int order, int order_by){
 		if(order_by == 0){
 			//sort by id
 			for(i = 0; i < MAX_CATEGORY; i++){
-				_sort(cat_list[i].inv_head,cmpAscById);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpAscById);
 			}
 		}
 		else if(order == 1){
 			//sort by price
 			for(i = 0; i < MAX_CATEGORY; i++){
-				_sort(cat_list[i].inv_head,cmpAscByPrice);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpAscByPrice);
 			}
 		}
 		else{
-			fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
+			//fprintf(stderr, "Wrong order_by parameter, please input 0 or 1\n");
+			return false;
 		}
 		
 		
 	}
 	else{
-		fprintf(stderr, "Wrong order parameter, please input 0 or 1\n");
+		//fprintf(stderr, "Wrong order parameter, please input 0 or 1\n");
+		return false;
 	}
+
+	return true;
 
 }
 
 /***********柏恩part************/
 void deleteInv(int id){//delete produce
-struct inventory *cur, *prev;
-for(int i = 0; i < MAX_CATEGORY; i++){
-	for (cur = cat_list[i].inv_head , prev = NULL;
-		 cur != NULL && cur->inventoryId==id;
-		 prev = cur, cur = cur->next)
-		;
-	if (cur == NULL)
-	{
-		
-		return;
+	struct inventory *cur, *prev;
+	for(int i = 0; i < MAX_CATEGORY; i++){
+		for (cur = cat_list[i].inv_head , prev = NULL;
+			cur != NULL && cur->inventoryId==id;
+			prev = cur, cur = cur->next)
+			;
+		if (cur == NULL)
+		{
+			
+			return;
+		}
+		if (prev == NULL)
+		{
+			struct inventory *next_inv = cat_list[i].inv_head;
+			cat_list[i].inv_head = next_inv->next;
+		}
+		else
+		{
+			
+			prev->next = cur->next; 
+		}
 	}
-	if (prev == NULL)
-	{
-		struct inventory *next_inv = cat_list[i].inv_head;
-		cat_list[i].inv_head = next_inv->next;
-	}
-	else
-	{
-		
-		prev->next = cur->next; 
-	}
-}
 }
 
 void searchInvByID(int id){//search id and print the specific item
@@ -224,6 +235,7 @@ int cmpDesById(const void *a, const void *b){
 	int a_ID = ((struct inventory *)a)->inventoryId;
 	int b_ID = ((struct inventory *)b)->inventoryId;
 
+	printf("%d\n", a_ID - b_ID);
 	return a_ID - b_ID;
 
 }
@@ -233,6 +245,7 @@ int cmpAscById(const void *a, const void *b){
 	int a_ID = ((struct inventory *)a)->inventoryId;
 	int b_ID = ((struct inventory *)b)->inventoryId;
 
+	printf("%d\n", b_ID - a_ID);
 	return b_ID - a_ID;
 
 }
@@ -241,6 +254,9 @@ int cmpDesByPrice(const void *a, const void *b){
 
 	double a_price = ((struct inventory *)a)->price;
 	double b_price = ((struct inventory *)b)->price;
+
+	printf("%f\n", a_price);
+	printf("%f\n", b_price);
 
 	if(a_price > b_price){
 		return 1;
@@ -257,6 +273,9 @@ int cmpAscByPrice(const void *a, const void *b){
 
 	double a_price = ((struct inventory *)a)->price;
 	double b_price = ((struct inventory *)b)->price;
+
+	printf("%f\n", a_price);
+	printf("%f\n", b_price);
 
 	if(a_price > b_price){
 		return -1;
