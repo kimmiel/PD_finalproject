@@ -55,7 +55,7 @@ struct inventory *partition(struct inventory *head, struct inventory *tail, stru
 
     while(current != NULL){
 
-        if(cmp(current, pivot) == -1){
+        if(cmp(current, pivot) < 0){
             //move the node to the left of pivot
             prev->next = current->next;
             current->next = head;

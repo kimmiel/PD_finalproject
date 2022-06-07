@@ -83,17 +83,17 @@ struct category *traversaInv(){
 bool sortInv(int order, int order_by){
 	int i = 0;
 	if(order == 0){
-		//descending
+		//ascending
 		if(order_by == 0){
 			//sort by id
 			for(i = 0; i < MAX_CATEGORY; i++){
-				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpDesById);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpAscById);
 			}
 		}
 		else if(order_by == 1){
 			//sort by price
 			for(i = 0; i < MAX_CATEGORY; i++){
-				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpDesByPrice);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpAscByPrice);
 			}
 		}
 		else{
@@ -102,17 +102,17 @@ bool sortInv(int order, int order_by){
 		}
 	}
 	else if(order == 1){
-		//ascending
+		//descending
 		if(order_by == 0){
 			//sort by id
 			for(i = 0; i < MAX_CATEGORY; i++){
-				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpAscById);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpDesById);
 			}
 		}
 		else if(order == 1){
 			//sort by price
 			for(i = 0; i < MAX_CATEGORY; i++){
-				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpAscByPrice);
+				cat_list[i].inv_head = _sort(cat_list[i].inv_head,cmpDesByPrice);
 			}
 		}
 		else{
@@ -230,43 +230,24 @@ void replenish(int replenish_id,int replenish_num){
 	}
 }
 
-int cmpDesById(const void *a, const void *b){
-
-	int a_ID = ((struct inventory *)a)->inventoryId;
-	int b_ID = ((struct inventory *)b)->inventoryId;
-
-	printf("%d\n", a_ID - b_ID);
-	return a_ID - b_ID;
-
-}
-
 int cmpAscById(const void *a, const void *b){
 
 	int a_ID = ((struct inventory *)a)->inventoryId;
 	int b_ID = ((struct inventory *)b)->inventoryId;
 
-	printf("%d\n", b_ID - a_ID);
-	return b_ID - a_ID;
+	// printf("%d\n", a_ID - b_ID);
+	return a_ID - b_ID;
 
 }
 
-int cmpDesByPrice(const void *a, const void *b){
+int cmpDesById(const void *a, const void *b){
 
-	double a_price = ((struct inventory *)a)->price;
-	double b_price = ((struct inventory *)b)->price;
+	int a_ID = ((struct inventory *)a)->inventoryId;
+	int b_ID = ((struct inventory *)b)->inventoryId;
 
-	printf("%f\n", a_price);
-	printf("%f\n", b_price);
+	// printf("%d\n", b_ID - a_ID);
+	return b_ID - a_ID;
 
-	if(a_price > b_price){
-		return 1;
-	}
-	else if(a_price = b_price){
-		return 0;
-	}
-	else{
-		return -1;
-	}
 }
 
 int cmpAscByPrice(const void *a, const void *b){
@@ -274,13 +255,32 @@ int cmpAscByPrice(const void *a, const void *b){
 	double a_price = ((struct inventory *)a)->price;
 	double b_price = ((struct inventory *)b)->price;
 
-	printf("%f\n", a_price);
-	printf("%f\n", b_price);
+	// printf("%f\n", a_price);
+	// printf("%f\n", b_price);
+
+	if(a_price > b_price){
+		return 1;
+	}
+	else if(a_price == b_price){
+		return 0;
+	}
+	else{
+		return -1;
+	}
+}
+
+int cmpDesByPrice(const void *a, const void *b){
+
+	double a_price = ((struct inventory *)a)->price;
+	double b_price = ((struct inventory *)b)->price;
+
+	// printf("%f\n", a_price);
+	// printf("%f\n", b_price);
 
 	if(a_price > b_price){
 		return -1;
 	}
-	else if(a_price = b_price){
+	else if(a_price == b_price){
 		return 0;
 	}
 	else{
